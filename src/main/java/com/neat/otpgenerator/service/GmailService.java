@@ -27,8 +27,10 @@ public class GmailService {
     }
 
     public boolean verifyOTP(String reeivedOTP){
-        System.out.println("hii");
         if(last_otp==null || otpCreatedAt==null){
+            return false;
+        }
+        if (Instant.now().isAfter(otpCreatedAt.plusSeconds(60))) {
             return false;
         }
         if(!reeivedOTP.equals(last_otp)){
