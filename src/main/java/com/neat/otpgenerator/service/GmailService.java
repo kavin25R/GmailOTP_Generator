@@ -6,25 +6,34 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Random;
 @Service
 public class GmailService {
     private JavaMailSender mailSender;
     public GmailService(JavaMailSender mailSender){
         this.mailSender=mailSender;
     }
-    private final String reciver_mail="hunterkavin13@gmail.com";
+    private final String receiver_mail="hunterkavin13@gmail.com";
     private String last_otp;
-    private Instant otpTimeStamp;
-    public void sendOtpAdmin(){
+    private Instant otpCreatedAt;
+    public void sendOtpReceiver(){
         String otp=String.format("%05d",new SecureRandom().nextInt(100000));
         this.last_otp=otp;
-        this.otpTimeStamp=Instant.now();
+        this.otpCreatedAt=Instant.now();
         SimpleMailMessage message=new SimpleMailMessage();
-        //message.setFrom(); if you set the admin mail default
-        message.setTo(reciver_mail);
+        message.setTo(receiver_mail);
         message.setText("Your OTP for verification: "+otp);
         message.setSubject("Otp Verification");
         mailSender.send(message);
+    }
+
+    public boolean verifyOTP(String reeivedOTP){
+        System.out.println("hii");
+        if(last_otp==null || otpCreatedAt==null){
+            return false;
+        }
+        if(!reeivedOTP.equals(last_otp)){
+            return false;
+        }
+        return true;
     }
 }
