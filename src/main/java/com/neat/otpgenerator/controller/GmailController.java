@@ -2,22 +2,21 @@ package com.neat.otpgenerator.controller;
 
 import com.neat.otpgenerator.service.GmailService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/otp")
 public class GmailController {
     private GmailService gmailService;
     public GmailController(GmailService gmailService){
         this.gmailService=gmailService;
     }
 
-    @GetMapping("/sendOTP")
-    public ResponseEntity<String> sendOTP(){
+    @PostMapping("/sendOTP")
+    public ResponseEntity<String> sendOTP(@RequestBody String email){
+        System.out.println(email);
         try{
-            gmailService.sendOtpReceiver();
+            gmailService.sendOtpReceiver(email);
             return ResponseEntity.ok("otp send to reciver");
         }
         catch (Exception ex){

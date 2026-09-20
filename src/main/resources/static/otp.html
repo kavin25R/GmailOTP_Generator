@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+</head>
+<body>
+    <div class="content">
+        <center>
+        <h1 ><b>OTP Generator</b></h1>
+        <table>
+            <tr>
+                <td>Email: </td>
+                <td><input type="email" id="email"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button onclick="sendOTP()">send</button>
+                </td>
+            </tr>
+        </table>
+        </center>
+    </div>
+
+    <script>
+    function sendOTP() {
+    const email = document.getElementById("email").value;
+    console.log("hii");
+    fetch("/otp/sendOTP", {
+    method: "POST"
+    ,headers: {
+            "Content-Type": "application/json"
+        },
+        body:email
+    })
+    .then(response => response.text())
+    .then(data => {
+    alert("OTP sended");
+    });
+    }
+        window.onload;
+    </script>
+</body>
+</html>

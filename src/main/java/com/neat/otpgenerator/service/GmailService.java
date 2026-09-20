@@ -12,10 +12,12 @@ public class GmailService {
     public GmailService(JavaMailSender mailSender){
         this.mailSender=mailSender;
     }
-    private final String receiver_mail="hunterkavin13@gmail.com";
+
+    private String receiver_mail="hunterkavin13@gmail.com";
     private String last_otp;
     private Instant otpCreatedAt;
-    public void sendOtpReceiver(){
+    public void sendOtpReceiver(String email){
+        this.receiver_mail=email;
         String otp=String.format("%05d",new SecureRandom().nextInt(100000));
         this.last_otp=otp;
         this.otpCreatedAt=Instant.now();
@@ -36,6 +38,8 @@ public class GmailService {
         if(!reeivedOTP.equals(last_otp)){
             return false;
         }
+        last_otp=null;
+        otpCreatedAt=null;
         return true;
     }
 }
